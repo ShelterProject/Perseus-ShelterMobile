@@ -1,0 +1,35 @@
+[
+  {
+    "location": "Pulo Batal",
+    "date": "2021-01-01",
+    "avgMagnitude": 3.45,
+    "latMin": -0.40,
+    "latMax": 4.50,
+    "lonMin": 94.65,
+    "lonMax": 99.33,
+    "depthMinKm": -87.93,
+    "depthMaxKm": 131.93
+  },
+  {
+    "location": "Sipora Utara",
+    "date": "2021-01-02",
+    "avgMagnitude": 3.21,
+    "latMin": -1.13,
+    "latMax": 3.78,
+    "lonMin": 96.10,
+    "lonMax": 100.02,
+    "depthMinKm": -70.15,
+    "depthMaxKm": 118.40
+  },
+  {
+    "location": "Muara Sipongi",
+    "date": "2021-01-03",
+    "avgMagnitude": 4.02,
+    "latMin": 0.20,
+    "latMax": 5.10,
+    "lonMin": 97.80,
+    "lonMax": 101.40,
+    "depthMinKm": -60.00,
+    "depthMaxKm": 140.00
+  }
+]

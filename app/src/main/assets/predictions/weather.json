@@ -1,0 +1,29 @@
+[
+  {
+    "date": "2021-01-01",
+    "temperature": 26.38,
+    "humidity": 93.51,
+    "rainfall": 5.11,
+    "windSpeed": 2.35,
+    "uvIndex": 3.96,
+    "condition": "Mendung"
+  },
+  {
+    "date": "2021-01-02",
+    "temperature": 26.41,
+    "humidity": 90.12,
+    "rainfall": 7.02,
+    "windSpeed": 2.33,
+    "uvIndex": 3.81,
+    "condition": "Hujan Deras"
+  },
+  {
+    "date": "2021-01-03",
+    "temperature": 27.05,
+    "humidity": 85.40,
+    "rainfall": 1.20,
+    "windSpeed": 2.10,
+    "uvIndex": 5.10,
+    "condition": "Cerah Berawan"
+  }
+]

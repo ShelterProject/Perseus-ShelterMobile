@@ -1,0 +1,30 @@
+[
+  {
+    "date": "2021-01-11",
+    "regions": {
+      "Asahan": 83,
+      "Dairi": 48,
+      "Deliserdang": 74,
+      "Karo": 36,
+      "Kota Medan": 61,
+      "Langkat": 79,
+      "Nias Selatan": 83,
+      "Samosir": 76,
+      "Simalungun": 57
+    }
+  },
+  {
+    "date": "2021-01-12",
+    "regions": {
+      "Asahan": 70,
+      "Dairi": 40,
+      "Deliserdang": 66,
+      "Karo": 30,
+      "Kota Medan": 55,
+      "Langkat": 72,
+      "Nias Selatan": 60,
+      "Samosir": 65,
+      "Simalungun": 50
+    }
+  }
+]
