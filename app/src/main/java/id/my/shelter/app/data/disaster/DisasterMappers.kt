@@ -1,5 +1,7 @@
 package id.my.shelter.app.data.disaster
 
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import id.my.shelter.app.data.disaster.local.EarthquakeEntity
 import id.my.shelter.app.data.disaster.local.FloodEntity
