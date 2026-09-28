@@ -9,3 +9,6 @@ captures/
 .cxx/
 app/google-services.json
 app/schemas/
+keystore.properties
+*.jks
+*.keystore
