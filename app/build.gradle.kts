@@ -15,11 +15,11 @@ plugins {
 }
 
 android {
-    namespace = "sidev.app.shelter"
+    namespace = "id.my.shelter.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "sidev.app.shelter"
+        applicationId = "id.my.shelter.app"
         minSdk = 31
         targetSdk = 34
         versionCode = 1
