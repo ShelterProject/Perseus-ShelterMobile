@@ -1,5 +1,3 @@
-import java.io.File
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,11 +5,17 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    // google-services needs a real google-services.json; applied only when present so the
-    // module still builds before a Firebase project is wired up (see docs/DATA_CONTRACT.md).
-    if (File(projectDir, "google-services.json").exists()) {
-        alias(libs.plugins.google.services)
-    }
+    // google-services itself is NOT applied here: the `plugins {}` block is evaluated in a
+    // restricted scope where `projectDir`/`file()` aren't available, so the presence check has
+    // to happen after this block (see the `apply(plugin = ...)` below).
+}
+
+// google-services needs a real google-services.json; applied only when present so the module
+// still builds before a Firebase project is wired up (see docs/DATA_CONTRACT.md). The plugin
+// itself is still resolvable here because the root build.gradle.kts declares it `apply false`,
+// which puts it on the classpath without applying it.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
 }
 
 android {
