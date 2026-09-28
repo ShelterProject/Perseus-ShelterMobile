@@ -14,7 +14,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -25,14 +27,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import id.my.shelter.app.domain.model.Gender
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,6 +53,8 @@ fun RegisterScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf(Gender.MALE) }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     Scaffold { padding ->
         Column(
@@ -124,7 +133,35 @@ fun RegisterScreen(
                 }
             }
 
-            TextButton(onClick = onNavigateToLogin, modifier = Modifier.padding(top = 4.dp)) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().widthIn(max = 480.dp).padding(vertical = 16.dp),
+            ) {
+                HorizontalDivider(modifier = Modifier.weight(1f))
+                Text("atau", modifier = Modifier.padding(horizontal = 12.dp), style = MaterialTheme.typography.labelLarge)
+                HorizontalDivider(modifier = Modifier.weight(1f))
+            }
+
+            OutlinedButton(
+                onClick = {
+                    scope.launch {
+                        try {
+                            val idToken = requestGoogleIdToken(context)
+                            viewModel.signInWithGoogle(idToken, onRegisterSuccess)
+                        } catch (e: GetCredentialCancellationException) {
+                            // user closed the account picker; nothing to report
+                        } catch (e: GetCredentialException) {
+                            viewModel.reportError(e.message ?: "Gagal daftar dengan Google, coba lagi.")
+                        }
+                    }
+                },
+                enabled = !uiState.isSubmitting,
+                modifier = Modifier.fillMaxWidth().widthIn(max = 480.dp),
+            ) {
+                Text("Daftar dengan Google")
+            }
+
+            TextButton(onClick = onNavigateToLogin, modifier = Modifier.padding(top = 12.dp)) {
                 Text("Sudah punya akun? Masuk")
             }
         }
