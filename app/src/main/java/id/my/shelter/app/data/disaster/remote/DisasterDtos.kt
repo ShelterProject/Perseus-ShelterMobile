@@ -2,7 +2,7 @@ package id.my.shelter.app.data.disaster.remote
 
 import kotlinx.serialization.Serializable
 
-// Field names match app_v2/docs/DATA_CONTRACT.md and the assets/predictions/*.json seed files.
+// Field names match docs/DATA_CONTRACT.md and the assets/predictions/*.json seed files.
 
 @Serializable
 data class EarthquakePredictionDto(

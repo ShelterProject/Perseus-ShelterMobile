@@ -6,7 +6,7 @@ enum class DisasterType { EARTHQUAKE, LANDSLIDE, FLOOD, FOREST_FIRE }
 
 /**
  * Base of the disaster-prediction domain model. Subtypes mirror the shape of the ML pipeline's
- * raw output (see _res/from_CC/*.json and Shelter_Cloud predict/*.json) but drop fields the app
+ * raw output (see sample JSON in _res/from_CC and Shelter_Cloud predict/) but drop fields the app
  * never uses (e.g. earthquake's raw lat/lon percentile columns are kept as ranges, not each stat).
  */
 sealed class DisasterPrediction {

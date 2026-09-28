@@ -23,7 +23,7 @@ private const val CHUNK_SIZE = 500
 private const val MAX_CACHE_AGE_MILLIS = 7L * 24 * 60 * 60 * 1000 // 7 days
 
 /**
- * Parses each predictions/*.json file and writes it into Room in [CHUNK_SIZE]-row batches
+ * Parses each predictions JSON file (assets/predictions/) and writes it into Room in [CHUNK_SIZE]-row batches
  * (not one giant transaction), publishing progress to [SyncStatusRepository] as it goes so
  * [id.my.shelter.app.feature.sync.SyncOverlay] can show a real progress bar.
  *

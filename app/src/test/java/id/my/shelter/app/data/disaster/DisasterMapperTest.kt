@@ -9,7 +9,7 @@ import id.my.shelter.app.data.disaster.remote.LandslidePredictionDto
 
 /**
  * Verifies DTO -> Entity -> domain mapping against the field names used in
- * app_v2/docs/DATA_CONTRACT.md / assets/predictions/*.json, without touching Firebase, Room, or
+ * docs/DATA_CONTRACT.md and the assets/predictions/ seed files, without touching Firebase, Room, or
  * the network — this is what the plan's "Verifikasi" step meant by testing mappers offline.
  */
 class DisasterMapperTest {
