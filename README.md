@@ -76,13 +76,37 @@ id.my.shelter.app/
 
 ## Release signing
 
-Keystore rilis **tidak boleh masuk repo**. Copy [`keystore.properties.example`](keystore.properties.example)
-jadi `keystore.properties` di root repo, isi dengan path & password keystore kamu sendiri (file ini
-sudah gitignored). Detail lengkap generate keystore ada di histori chat/dokumentasi setup — intinya:
+Keystore rilis **tidak boleh masuk repo**. Generate sekali di mesin kamu (private key ini identitas
+rilis app selamanya — simpan baik-baik, jangan pernah hilang atau bocor):
 
 ```bash
 keytool -genkeypair -v -keystore ~/shelter-release.jks -alias shelter -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-lalu isi `keystore.properties`, dan `./gradlew :app:assembleRelease` otomatis akan
-menandatanganinya.
+Lalu copy [`keystore.properties.example`](keystore.properties.example) jadi `keystore.properties`
+di root repo (sudah gitignored, tidak ke-commit), isi 4 field-nya (`storeFile`, `storePassword`,
+`keyAlias`, `keyPassword`) sesuai keystore yang barusan dibuat.
+
+Kalau keystore rilis ini baru (beda dari debug keystore), ulangi langkah "Setup Firebase" no. 3–4
+di atas pakai `keytool -list -v -keystore ~/shelter-release.jks -alias shelter` untuk dapat
+SHA-1/SHA-256-nya, tambahkan ke Firebase, dan download ulang `google-services.json` — kalau tidak,
+Google Sign-In akan gagal di build release walau build debug tetap jalan normal.
+
+## Build release
+
+```bash
+./gradlew :app:assembleRelease   # APK, buat testing/distribusi manual
+./gradlew :app:bundleRelease     # AAB, wajib buat upload ke Google Play
+```
+
+Hasilnya:
+- APK: `app/build/outputs/apk/release/app-release.apk`
+- AAB: `app/build/outputs/bundle/release/app-release.aab`
+
+Keduanya otomatis ditandatangani pakai `keystore.properties` di atas. Kalau file itu belum ada,
+build tetap sukses tapi **hasilnya unsigned** — tidak bisa diinstal langsung maupun diupload ke
+Play Store.
+
+Catatan: `isMinifyEnabled` masih `false` (belum ada shrink/obfuscate R8). Untuk rilis produksi
+sungguhan, aktifkan ini di `app/build.gradle.kts` dan uji betul semua fitur (terutama yang refleksi
+seperti Room/Hilt) tidak rusak akibat obfuscation sebelum submit ke Play Store.
