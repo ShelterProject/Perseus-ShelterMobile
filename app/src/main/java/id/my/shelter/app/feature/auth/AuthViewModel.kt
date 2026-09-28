@@ -63,7 +63,26 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun signInWithGoogle(googleIdToken: String, onSuccess: () -> Unit) {
+        _uiState.value = AuthUiState(isSubmitting = true)
+        viewModelScope.launch {
+            when (val result = authRepository.signInWithGoogle(googleIdToken)) {
+                is Resource.Success -> {
+                    _uiState.value = AuthUiState(isSubmitting = false)
+                    onSuccess()
+                }
+                is Resource.Error -> _uiState.value = AuthUiState(errorMessage = result.message)
+                Resource.Loading -> Unit
+            }
+        }
+    }
+
     fun consumeError() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
+    }
+
+    /** Lets the UI surface a Credential Manager / Google sign-in failure through the same error slot. */
+    fun reportError(message: String) {
+        _uiState.value = AuthUiState(errorMessage = message)
     }
 }

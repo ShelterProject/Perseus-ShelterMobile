@@ -32,4 +32,18 @@ class UserProfileFirestoreDataSource @Inject constructor(
         val address = snapshot.getString("address")
         return User(uid = uid, email = email, fullName = fullName, gender = gender, address = address)
     }
+
+    /**
+     * Google sign-in creates the Firebase Auth user before any `users/{uid}` doc exists.
+     * Seeds it from the Google account's display name (gender unknown) on first login only.
+     */
+    suspend fun fetchOrCreateProfile(uid: String, email: String, googleDisplayName: String): User {
+        val docRef = usersCollection().document(uid)
+        val snapshot = docRef.get().await()
+        if (!snapshot.exists()) {
+            docRef.set(mapOf("fullName" to googleDisplayName, "gender" to null, "address" to null)).await()
+            return User(uid = uid, email = email, fullName = googleDisplayName, gender = null, address = null)
+        }
+        return fetchProfile(uid, email)
+    }
 }

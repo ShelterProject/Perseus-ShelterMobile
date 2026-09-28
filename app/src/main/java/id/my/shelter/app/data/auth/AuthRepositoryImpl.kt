@@ -43,5 +43,17 @@ class AuthRepositoryImpl @Inject constructor(
         Resource.Error(e.message ?: "Gagal mendaftar, coba lagi.", e)
     }
 
+    override suspend fun signInWithGoogle(googleIdToken: String): Resource<User> = try {
+        val firebaseUser = firebaseAuthDataSource.signInWithGoogleIdToken(googleIdToken)
+        val user = userProfileFirestoreDataSource.fetchOrCreateProfile(
+            uid = firebaseUser.uid,
+            email = firebaseUser.email.orEmpty(),
+            googleDisplayName = firebaseUser.displayName.orEmpty(),
+        )
+        Resource.Success(user)
+    } catch (e: Exception) {
+        Resource.Error(e.message ?: "Gagal masuk dengan Google, coba lagi.", e)
+    }
+
     override fun signOut() = firebaseAuthDataSource.signOut()
 }

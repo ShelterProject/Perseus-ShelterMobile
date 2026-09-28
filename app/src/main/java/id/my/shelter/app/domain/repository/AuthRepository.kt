@@ -17,5 +17,8 @@ interface AuthRepository {
         gender: Gender,
     ): Resource<User>
 
+    /** [googleIdToken] is the ID token from Credential Manager's GoogleIdTokenCredential. */
+    suspend fun signInWithGoogle(googleIdToken: String): Resource<User>
+
     fun signOut()
 }
